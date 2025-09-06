@@ -1,0 +1,11 @@
+CC = clang
+CFLAGS = -Wall -Wextra -Iinclude
+
+SRC = src/main.c
+OUT = hyperxhid
+
+all:
+	$(CC) $(CFLAGS) -framework IOKit -framework CoreFoundation $(SRC) -o $(OUT)
+
+clean:
+	rm -f $(OUT)
