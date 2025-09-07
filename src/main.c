@@ -2,10 +2,11 @@
 #include <stdlib.h>
 #include <IOKit/hid/IOHIDManager.h>
 #include <CoreFoundation/CoreFoundation.h>
+#include "logger.h"
 
 #define VENDOR_ID 0x03f0
 #define PRODUCT_ID 0x0b97
-//
+
 // Creating dictionary for searching device
 CFMutableDictionaryRef CreateMatchingDictionary(int vendorID, int productID) {
     CFMutableDictionaryRef dict = CFDictionaryCreateMutable(kCFAllocatorDefault, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
@@ -28,12 +29,37 @@ void HadnleInput(void *context, IOReturn result, void *sender, IOHIDValueRef val
     uint32_t usage = IOHIDElementGetUsage(element);
     CFIndex length = IOHIDValueGetLength(value);
     const uint8_t *data = IOHIDValueGetBytePtr(value);
+    int int_value = IOHIDValueGetIntegerValue(value);
 
-    printf("Usage: 0x%x | Length: %ld | Data: ", usage, length);
-    for (CFIndex i = 0; i < length; ++i) {
-        printf("%02x ", data[i]);
-    }
-    printf("\n");
+    switch (usage) {
+        case 0x01:
+            printf("🖱️  Left Button: %s\n", int_value ? "Pressed" : "Released");
+            break;
+        case 0x02:
+            printf("🖱️  Right Button: %s\n", int_value ? "Pressed" : "Released");
+            break;
+        case 0x03:
+            printf("🖱️  Middle Button: %s\n", int_value ? "Pressed" : "Released");
+            break;
+        case 0x30:
+            printf("➡️  Move X: %d\n", int_value);
+            break;
+        case 0x31:
+            printf("⬆️  Move Y: %d\n", int_value);
+            break;
+        case 0x38:
+            printf("🌀 Scroll: %d\n", int_value);
+            break;
+        default:
+            printf("Usage: 0x%x | Length: %ld | Data: ", usage, length);
+            for (CFIndex i = 0; i < length; ++i) {
+                printf("%02x ", data[i]);
+            }
+            printf("\n");
+            break;
+        }
+
+    logger_log(usage, length, data);
 }
 
 int main() {
@@ -56,6 +82,8 @@ int main() {
         CFRelease(manager);
         return 2;
     }
+
+    logger_init("log.csv");
 
     CFSetRef deviceSet = IOHIDManagerCopyDevices(manager);
     if (deviceSet) {
@@ -95,6 +123,8 @@ int main() {
 
     IOHIDManagerClose(manager, kIOHIDOptionsTypeNone);
     CFRelease(manager);
+
+    logger_close();
 
     return 0;
 }
