@@ -32,7 +32,8 @@ make
 ```
 
 ## 🔗 References
-- Apple IOKit HID Documentation
-- HID Usage Tables (USB.org)
-- CoreFoundation Reference
-- IOHID Example Projects
+- https://github.com/phracker/MacOSX-SDKs/tree/master/MacOSX10.9.sdk/System/Library/Frameworks/IOKit.framework/Versions/A/Headers/hid
+- https://developer.apple.com/documentation/iokit
+- https://developer.apple.com/library/archive/documentation/DeviceDrivers/Conceptual/HID/intro/intro.html
+- https://www.usb.org/document-library/hid-usage-tables-16
+

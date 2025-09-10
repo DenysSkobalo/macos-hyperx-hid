@@ -1,5 +1,5 @@
 CC = clang
-CFLAGS = -Wall -Wextra -Iinclude
+CFLAGS = -Wall -Wextra -Iinclude -std=c11
 
 SRC = src/main.c src/logger.c
 OUT = hyperxhid
