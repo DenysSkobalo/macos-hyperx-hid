@@ -7,5 +7,7 @@
 void parser_usage_0x24(const uint8_t *data, CFIndex length);
 void parser_vendor_usage(uint8_t *data, CFIndex length);
 void parser_standart_usage(uint32_t usage, int int_value, CFIndex length, const uint8_t *data);
+void parser_usage_FFFFFFFF(const uint8_t* data, CFIndex length);
+void parser_dpi_status_packet(const uint8_t *data, size_t length);
 
 #endif

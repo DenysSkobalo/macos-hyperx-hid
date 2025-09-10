@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <IOKit/hid/IOHIDManager.h>
 #include <CoreFoundation/CoreFoundation.h>
-#include "logger.h"
 #include "hid_utils.h"
 
 #define VENDOR_ID  0x03f0
@@ -39,16 +38,18 @@ static void handle_input(void *context, IOReturn result, void *sender, IOHIDValu
     switch (usage) {
         case 0x24:
             parser_usage_0x24(data, length);
+            if(data[0] == 0x08) {
+                parser_dpi_status_packet(data, length);
+            }
             break;
         case 0xFFFFFFFF:
             parser_vendor_usage(data, length);
+            parser_usage_FFFFFFFF(data, length);
             break;
         default:
             parser_standart_usage(usage, int_value, length, data);
             break;
     }
-
-    logger_log(usage, length, data);
 }
 
 int main(void) {
@@ -70,8 +71,6 @@ int main(void) {
         CFRelease(manager);
         return EXIT_FAILURE;
     }
-
-    logger_init("log.csv");
 
     CFSetRef deviceSet = IOHIDManagerCopyDevices(manager);
     if (deviceSet) {
@@ -113,7 +112,6 @@ int main(void) {
 
     IOHIDManagerClose(manager, kIOHIDOptionsTypeNone);
     CFRelease(manager);
-    logger_close();
 
     return EXIT_SUCCESS;
 }

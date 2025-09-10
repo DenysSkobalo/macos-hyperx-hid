@@ -1,7 +1,7 @@
 CC = clang
 CFLAGS = -Wall -Wextra -Iinclude -std=c11
 
-SRC = src/main.c src/logger.c src/hid_utils.c
+SRC = src/main.c src/hid_utils.c
 OUT = hyperxhid
 LOGS = log.csv
 

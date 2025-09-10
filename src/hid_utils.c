@@ -81,3 +81,46 @@ void parser_usage_0x24(const uint8_t *data, CFIndex length) {
             break;
     }
 }
+
+void parser_usage_FFFFFFFF(const uint8_t* data, CFIndex length) {
+    printf("[0xFFFFFFFF] Vendor-defined message (%ld byte(s)): ", length);
+    for (CFIndex i = 0; i < length; i++) {
+        printf("%02X ", data[i]);
+    }
+    printf("\n");
+
+    if (length == 5 && data[0] == 0x03) {
+        uint8_t code = data[1];
+        uint8_t value = data[2];
+        printf("🔧 [Vendor] Type: 0x%02X, Code: 0x%02X, Value: 0x%02X\n", data[0], code, value);
+        switch (code) {
+            case 0x50:
+                printf("🎯 Possible DPI report: value = %d\n", value);
+                break;
+            case 0x59:
+                printf("🎨 Possible RGB or profile switch\n");
+                break;
+            default:
+                printf("❓ Unknown vendor code\n");
+        }
+    }
+}
+
+void parser_dpi_status_packet(const uint8_t *data, size_t length) {
+    if (length >= 3 && data[0] == 0x08) {
+        uint8_t profile_index = data[1];
+        uint8_t dpi_code = data[2];
+
+        printf("🎯 [DPI Status] Profile Index: %u | DPI Code: 0x%02X", profile_index, dpi_code);
+
+        const char *dpi_value = "Unknown";
+        switch (dpi_code) {
+            case 0x0F: dpi_value = "800 DPI"; break;
+            case 0x1F: dpi_value = "1600 DPI"; break;
+            case 0x2F: dpi_value = "2400 DPI"; break;
+            case 0x3F: dpi_value = "3200 DPI"; break;
+        }
+
+        printf(" → Approx DPI: %s\n", dpi_value);
+    }
+}
