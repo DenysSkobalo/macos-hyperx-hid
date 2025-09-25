@@ -6,17 +6,17 @@ This project aims to reverse-engineer proprietary HID messages for **DPI changes
 
 ---
 
-## 🎯 Features
+## Features
 
-- 🔍 Detects and filters devices by **Vendor ID / Product ID**
-- 🧠 Logs raw **HID input reports** to terminal
-- 🖱 Tracks standard HID usage: movement (X/Y), clicks, scroll
-- 🧩 Captures **non-standard HID usage**, such as DPI or macro events
-- 🧪 Reverse engineering-friendly foundation
+- Detects and filters devices by **Vendor ID / Product ID**
+- Logs raw **HID input reports** to terminal
+- Tracks standard HID usage: movement (X/Y), clicks, scroll
+- Сaptures **non-standard HID usage**, such as DPI or macro events
+- Reverse engineering-friendly foundation
 
 ---
 
-## 🛠 Requirements
+## Requirements
 
 - macOS 11.0+ (Intel or Apple Silicon)
 - Xcode Command Line Tools (`clang`)
@@ -24,14 +24,14 @@ This project aims to reverse-engineer proprietary HID messages for **DPI changes
 
 ---
 
-## 📦 Build & Run
+## Build & Run
 
 ```bash
 make
 ./hyperxhid
 ```
 
-## 🔗 References
+## References
 - https://github.com/phracker/MacOSX-SDKs/tree/master/MacOSX10.9.sdk/System/Library/Frameworks/IOKit.framework/Versions/A/Headers/hid
 - https://developer.apple.com/documentation/iokit
 - https://developer.apple.com/library/archive/documentation/DeviceDrivers/Conceptual/HID/intro/intro.html
